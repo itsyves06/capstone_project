@@ -11,12 +11,12 @@ class RequestFormScreen extends StatefulWidget {
 }
 
 class _RequestFormScreenState extends State<RequestFormScreen> {
-  // 1. Controllers for TextFields
+  
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _yearController = TextEditingController();
   final TextEditingController _otherPurposeController = TextEditingController();
 
-  // 2. State variables for Dropdowns
+
   String? _selectedDoc;
   String? _selectedPurp;
 
@@ -116,7 +116,7 @@ class _RequestFormScreenState extends State<RequestFormScreen> {
       return;
     }
 
-    // Success: Proceed to Payment Screen
+    
     Navigator.push(
       context,
       MaterialPageRoute(

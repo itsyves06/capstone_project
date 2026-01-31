@@ -1,3 +1,4 @@
+import 'package:capstone_project/screens/pending_screen.dart';
 import 'package:capstone_project/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,27 +6,52 @@ import '../constants.dart';
 import 'request_form_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required String email});
+  final int initialIndex;
+  final PendingRequest? newRequest;
+
+  const HomeScreen({
+    super.key,
+    this.initialIndex = 0,
+    this.newRequest,
+  });
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
-  final PageController _pageController = PageController();
+  static List<PendingRequest> globalRequests = [];
+  late int _selectedIndex;
+  late PageController _pageController;
+
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.initialIndex;
+    _pageController = PageController(initialPage: _selectedIndex);
+     
+
+    
+    if (widget.newRequest != null) {
+      globalRequests.add(widget.newRequest!);
+    }
+  }
 
   void _onTappedBar(int value) {
     setState(() {
       _selectedIndex = value;
     });
-    _pageController.jumpToPage(value);
+    _pageController.animateToPage(
+      value,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: FB_BACKGROUND_LIGHT,
       body: PageView(
         controller: _pageController,
         onPageChanged: (page) {
@@ -35,16 +61,19 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         children: [
           _buildHomeContent(context),
-          const Center(child: Text("Pending")),
+
+         
+          PendingScreen(requestList: globalRequests),
+
           const Center(child: Text("History")),
         ],
       ),
       bottomNavigationBar: Container(
-        height: 80.h, // Scaled height
+        height: 80.h,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20.r), // Scaled radius
+            topLeft: Radius.circular(20.r),
             topRight: Radius.circular(20.r),
           ),
           boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 10)],
@@ -67,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
       onTap: () => _onTappedBar(index),
       child: Container(
         alignment: Alignment.center,
-        height: 80.h, // Adjusted to fit within the bottom bar
+        height: 80.h,
         decoration: BoxDecoration(
           color: isSelected ? FB_PRIMARY : Colors.transparent,
           borderRadius: BorderRadius.circular(10.r),
@@ -75,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Icon(
           isSelected ? activeIcon : icon,
           color: isSelected ? Colors.white : FB_DARK_PRIMARY,
-          size: 28.sp, // Scaled icon size
+          size: 28.sp,
         ),
       ),
     );
@@ -84,14 +113,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildHomeContent(BuildContext context) {
     return Stack(
       children: [
-        // Blue Header
         Container(
-          height: 300.h, // Scaled header
+          height: 300.h,
           width: double.infinity,
           decoration: BoxDecoration(
             color: FB_PRIMARY,
             borderRadius: BorderRadius.vertical(
-              bottom: Radius.elliptical(200.w, 50.h), 
+              bottom: Radius.elliptical(200.w, 50.h),
             ),
             image: const DecorationImage(
               image: AssetImage('assets/image/BluePattern.jpg'),
@@ -107,12 +135,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const ProfileScreen()), 
+                      MaterialPageRoute(builder: (context) => const ProfileScreen()),
                     );
                   },
                   child: CircleAvatar(
                     backgroundColor: Colors.white.withOpacity(0.9),
-                    radius: 18.r, // Scaled radius
+                    radius: 18.r,
                     child: Icon(Icons.person, size: 20.sp, color: FB_PRIMARY),
                   ),
                 ),
@@ -122,11 +150,11 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
 
         Positioned(
-          top: 180.h, 
+          top: 180.h,
           left: 25.w,
           right: 25.w,
           child: Container(
-            height: 150.h, // Scaled height
+            height: 150.h,
             padding: EdgeInsets.all(15.w),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -168,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
-            padding: EdgeInsets.only(bottom: 60.h), 
+            padding: EdgeInsets.only(bottom: 60.h),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: FB_DARK_PRIMARY,
@@ -202,3 +230,5 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+

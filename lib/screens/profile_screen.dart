@@ -16,7 +16,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          // 1. Blue Header and Profile Avatar Stack
+  
           Stack(
             alignment: Alignment.center,
             clipBehavior: Clip.none,
@@ -61,7 +61,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           const Divider(thickness: 2, height: 1),
 
-          // 3. Email Row (Manual)
+      
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
             child: Row(
@@ -88,7 +88,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
           const Spacer(),
 
-          // 5. Log out Button
+        
           Padding(
             padding: EdgeInsets.only(bottom: 30.h, right: 20.w),
             child: Align(

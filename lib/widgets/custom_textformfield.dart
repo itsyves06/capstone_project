@@ -1,106 +1,75 @@
-// ignore_for_file: prefer_typing_uninitialized_variables
-
-import 'package:flutter/services.dart';
-import '../constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-// ignore: must_be_immutable
 class CustomTextFormField extends StatelessWidget {
-  CustomTextFormField({
+  final double height;
+  final double width;
+  final TextEditingController controller;
+  final String hintText;
+  final double fontSize;
+  final double hintTextSize;
+  final Color fontColor;
+  final bool isObscure;
+  final Widget? suffixIcon;
+  final String? Function(String?)? validator;
+  final void Function(String?)? onSaved;
+  final TextInputType keyboardType;
+
+  const CustomTextFormField({
     super.key,
-    required this.validator,
-    required this.onSaved,
-    this.controller,
-    this.isObscure = false,
-    required this.fontSize,
-    required this.fontColor,
-    this.hintTextSize = 12,
-    this.hintText = '',
-    this.fillColor = Colors.black12,
-    this.suffixIcon,
     required this.height,
     required this.width,
+    required this.controller,
+    required this.hintText,
+    required this.fontSize,
+    required this.hintTextSize,
+    required this.fontColor,
+    this.isObscure = false,
+    this.suffixIcon,
+    this.validator,
+    this.onSaved,
     this.keyboardType = TextInputType.text,
-    this.maxLength = 200,
   });
-
-  final validator;
-  final Function(String?)? onSaved;
-  final controller;
-  final Widget? suffixIcon;
-  final isObscure;
-  final fontSize;
-  final fontColor;
-  final double height, width;
-  final hintTextSize;
-  final hintText;
-  final fillColor;
-  TextInputType keyboardType;
-  int maxLength;
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      validator: validator,
-      onSaved: onSaved,
-      controller: controller,
-      obscureText: isObscure,
-      keyboardType: keyboardType,
-      inputFormatters: [
-        LengthLimitingTextInputFormatter(maxLength),
-      ],
-      style: TextStyle(
-        fontSize: fontSize,
-        color: fontColor,
-      ),
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(width, height, width, height),
-        focusColor: Colors.black12,
-        enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: FB_DARK_PRIMARY,
-            width: 2,
+    return SizedBox(
+      height: 60.h,
+      width: double.infinity,
+      child: TextFormField(
+        controller: controller,
+        obscureText: isObscure,
+        validator: validator,
+        onSaved: onSaved, // ✅ added
+        keyboardType: keyboardType,
+        style: TextStyle(fontSize: fontSize, color: fontColor),
+        decoration: InputDecoration(
+          hintText: hintText,
+          hintStyle: TextStyle(fontSize: hintTextSize, color: Colors.grey),
+          suffixIcon: suffixIcon,
+          contentPadding:
+              EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.r),
+            borderSide: BorderSide(color: Colors.grey.shade300),
           ),
-          borderRadius: BorderRadius.all(
-            Radius.circular(10.0),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.r),
+            borderSide: BorderSide(color: Colors.grey.shade300),
           ),
-        ),
-        errorBorder: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.red,
-            width: 2,
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.r),
+            borderSide: const BorderSide(color: Colors.blue),
           ),
-          borderRadius: BorderRadius.all(
-            Radius.circular(10.0),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.r),
+            borderSide: const BorderSide(color: Colors.red),
           ),
-        ),
-        errorStyle: const TextStyle(fontFamily: 'Frutiger'),
-        focusedErrorBorder: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.red,
-            width: 2,
-          ),
-          borderRadius: BorderRadius.all(
-            Radius.circular(10.0),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.r),
+            borderSide: const BorderSide(color: Colors.red),
           ),
         ),
-        focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: FB_LIGHT_PRIMARY,
-            width: 2,
-          ),
-          borderRadius: BorderRadius.all(
-            Radius.circular(10.0),
-          ),
-        ),
-        filled: true,
-        hintStyle: TextStyle(
-          color: Colors.black12,
-          fontSize: hintTextSize,
-          fontFamily: 'Frutiger',
-        ),
-        hintText: hintText,
-        fillColor: fillColor,
       ),
     );
   }

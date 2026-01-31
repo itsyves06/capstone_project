@@ -55,7 +55,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 fontSize: 14.sp,
                 hintTextSize: 14.sp, 
                 onSaved: (value) => emailController.text = value!, 
-                validator: (value) => value!.isEmpty ? 'Required' : null, fontColor: null, 
+                validator: (value) => value!.isEmpty ? 'Required' : null, fontColor: Colors.black, 
               ),
               SizedBox(height: 15.h),
               // Password
@@ -68,7 +68,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 fontSize: 14.sp,
                 hintTextSize: 14.sp,
                 onSaved: (value) => passwordController.text = value!,
-                validator: (value) => value!.isEmpty ? 'Required' : null, fontColor: null,
+                validator: (value) => value!.isEmpty ? 'Required' : null, fontColor: Colors.black,
               ),
               SizedBox(height: 15.h),
               // Confirm Password
@@ -81,7 +81,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 fontSize: 14.sp,
                 hintTextSize: 14.sp,
                 onSaved: (value) => confirmPasswordController.text = value!,
-                validator: (value) => value!.isEmpty ? 'Required' : null, fontColor: null,
+                validator: (value) => value!.isEmpty ? 'Required' : null, fontColor: Colors.black,
               ),
               SizedBox(height: 30.h),
               // Register Button

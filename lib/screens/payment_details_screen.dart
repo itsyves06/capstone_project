@@ -1,7 +1,9 @@
+import 'package:capstone_project/screens/home_screen.dart';
+import 'package:capstone_project/screens/pending_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../constants.dart'; 
-import '../widgets/custom_font.dart'; 
+import '../constants.dart';
+import '../widgets/custom_font.dart';
 
 class PaymentScreen extends StatefulWidget {
   final String documentName;
@@ -26,6 +28,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         backgroundColor: FB_PRIMARY,
         elevation: 4,
         centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.white),
         title: CustomFont(
           text: "Payment Process",
           fontSize: 22.sp,
@@ -49,7 +52,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               fontSize: 14.sp,
               color: Colors.black54,
             ),
-            
+
             SizedBox(height: 25.h),
             _buildCard(
               title: "Document Details",
@@ -64,7 +67,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
             SizedBox(height: 20.h),
 
-            // Payment Method Card
             _buildCard(
               title: "Payment Method",
               child: Row(
@@ -92,7 +94,21 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
             Center(
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  final now = DateTime.now();
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SuccessfulScreen(
+                        request: PendingRequest(
+                          docName: widget.documentName,
+                          dateCreated: now,
+                        ),
+                      ),
+                    ),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: FB_DARK_PRIMARY,
                   fixedSize: Size(300.w, 50.h),
@@ -145,3 +161,85 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 }
+
+// ----SUCCESS SCREEN ----
+
+class SuccessfulScreen extends StatelessWidget {
+  final PendingRequest request;
+
+  const SuccessfulScreen({
+    super.key,
+    required this.request,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 40.w),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: 120.r,
+                width: 120.r,
+                decoration: const BoxDecoration(
+                  color: Color(0xFF9DB2BF),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.check,
+                  color: Colors.white,
+                  size: 80.r,
+                ),
+              ),
+
+              SizedBox(height: 30.h),
+
+              CustomFont(
+                text: "Payment Successful",
+                fontSize: 20.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+
+              SizedBox(height: 50.h),
+
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomeScreen(
+                        initialIndex: 1,
+                        newRequest: request,
+                      ),
+                    ),
+                    (route) => false,
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF27374D),
+                  fixedSize: Size(340.w, 50.h),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  elevation: 5,
+                ),
+                child: CustomFont(
+                  text: "Ok",
+                  fontSize: 18.sp,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
