@@ -23,8 +23,11 @@ class _RequestFormScreenState extends State<RequestFormScreen> {
   final List<String> documents = [
     'Transcript of Records',
     'Diploma',
-    'Form 137',
-    'Good Moral'
+    'Certificate of Course Syllabus',
+    'Good Moral',
+    'True Copy of Grades',
+    'Certificate of Units Earned',
+    'Certificate of Enrollment'
   ];
 
   final List<String> purposes = [
@@ -36,10 +39,13 @@ class _RequestFormScreenState extends State<RequestFormScreen> {
   ];
 
   final Map<String, double> docPrices = {
-    'Transcript of Records': 350.00,
-    'Diploma': 200.00,
-    'Form 137': 150.00,
-    'Good Moral': 100.00,
+    'Transcript of Records': 50.00,
+    'Diploma': 40.00,
+    'Certificate of Course Syllabus': 50.00,
+    'True Copy of Grades': 50.00,
+    'Good Moral': 50.00,
+    'Certificate of Units Earned': 50.00,
+    'Certificate of Enrollment': 50.00
   };
 
   @override
